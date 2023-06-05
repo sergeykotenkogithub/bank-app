@@ -1,6 +1,8 @@
 import { Layout } from '@/components/layout/layout.component'
 import { NotFound } from '@/components/screens/not-found/not-found.component'
 
+import { $R } from '../rquery/rquery.lib'
+
 import { ROUTES } from './routes.data'
 
 export class Router {
@@ -42,6 +44,7 @@ export class Router {
 	#handleRouteChange() {
 		const path = this.getCurrentPath() || '/'
 		let route = this.#routes.find(route => route.path === path)
+
 		if (!route) {
 			route = {
 				component: NotFound
@@ -53,15 +56,17 @@ export class Router {
 	}
 
 	#render() {
-		const component = new this.#currentRoute.component()
+		const component = new this.#currentRoute.component().render()
+
 		if (!this.#layout) {
 			this.#layout = new Layout({
 				router: this,
-				children: component.render()
-			})
-			document.getElementById('app').innerHTML = this.#layout.render()
+				children: component
+			}).render()
+
+			$R('#app').append(this.#layout)
 		} else {
-			document.querySelector('main').innerHTML = component.render()
+			$R('#content').html('').append(component)
 		}
 	}
 }

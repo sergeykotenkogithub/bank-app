@@ -4,8 +4,7 @@ export class NotFound extends BaseScreen {
 	constructor() {
 		super({ title: 'Not Found' })
 	}
-
 	render() {
-		return '<p>NotFound</p>'
+		return '<p>Not found!</p>'
 	}
 }
